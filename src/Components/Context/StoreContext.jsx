@@ -72,24 +72,25 @@ const StoreContextProvider = (props) => {
     }
 
     const fetchFoodList = async () => {
-        const response = await axios.get(url + "/api/food/list")
-        setFoodList(response.data.data)
+        const response = await axios.get(url + "/api/food/list");
+        setFoodList(response.data.data);
     }
 
+
 const loadCartData = async (token) => {
+  if (!token) return;
   try {
     const res = await axios.post(
-      `${url}/api/cart/get`,
-      {}, // no body
+      url + "/api/cart/get",
+      {},
       {
         headers: {
-          Authorization: `Bearer ${token}`, // ✅ correct
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
     );
-    console.log("Cart Load Response:", res.data);
-    setcartItems(res.data.cartData || {}); 
+    setcartItems(res.data.cartData || {});
   } catch (err) {
     console.error("Load Cart Error:", err.response?.data || err.message);
   }
